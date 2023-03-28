@@ -18,14 +18,14 @@ public class exe3 {
             }
             if((dados[0]+dados[1]) == 2 || (dados[0]+dados[1]) == 3 || (dados[0]+dados[1]) == 12 ){
                 lancamento++;
-            }else{
-                ponto = dados[0]+dados[1];
-                System.out.println("Seu ponto e "+ponto);
-                System.out.println("Iniciando a segunda rodada");
-            }
+            
         }
 
-        if (ponto != 0 && lancamento == 1) {
+        if (lancamento == 1) {
+
+            ponto = dados[0]+dados[1];
+            System.out.println("Seu ponto e "+ponto);
+            System.out.println("Iniciando a segunda rodada");
 
             do {
                 dado(dados);
@@ -42,6 +42,7 @@ public class exe3 {
         } else {
             System.out.println("Voce perdeu!");
         }
+    }
     }
 
     public static void dado(int dados[]) {
