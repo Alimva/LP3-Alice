@@ -9,16 +9,16 @@ public class exe4 {
       String [][] tab2 = {{"-","-","-","-","-"},{"-","-","-","-","-"},{"-","-","-","-","-"},{"-","-","-","-","-"},{"-","-","-","-","-"}};
       int navio1,navio2;
 
-      navio1 = navio2 = 1;
+      navio1 = navio2 = 0;
       
       System.out.println("Bem vindo ao batalha naval!");
       
-      while (navio1 <= 5) {
+      while (navio1 < 5) {
         navio1 = navio1 + criaGabarito(gabarito1,1);
 
       }
 
-      while (navio2 <= 5) {
+      while (navio2 < 5) {
         navio2 = navio2 + criaGabarito(gabarito2,2);
 
       }
@@ -27,9 +27,15 @@ public class exe4 {
 
       while(navio1 != 0 && navio2 != 0){
 
-        navio1 = navio1 - tiro(1, gabarito1, tab1, 2);
+        navio1 = navio1 - tiro(1, gabarito2, tab1, 2);
+        prnTabuleiro(tab1);
 
-        navio2 = navio2 - tiro(2, gabarito2, tab2, 1);
+        if(navio1 == 0){
+          break;
+        }
+
+        navio2 = navio2 - tiro(2, gabarito1, tab2, 1);
+        prnTabuleiro(tab2);
       }
 
       if(navio1 == 0){
@@ -40,12 +46,13 @@ public class exe4 {
         System.out.println("O jogador 2 venceu");
       }
 
+
    }
 
    public static int tiro(int player1, String [][] gabarito, String [][] tab, int player2) {
       int x,y;
       Scanner scanner = new Scanner(System.in);
-      System.out.println("Entre com as coordenadas do navio: ");
+      System.out.println("Entre com as coordenadas do navio jogador "+ player1 +": ");
       x = scanner.nextInt();
       y = scanner.nextInt();
 
@@ -60,6 +67,7 @@ public class exe4 {
         x = scanner.nextInt();
         y = scanner.nextInt();
       }
+
 
       if(gabarito[x][y] == "@"){
           tab[x][y] = "X";
@@ -85,6 +93,8 @@ public class exe4 {
           System.out.println("Coordenadas invalidas.");
           return 0;
         }
+
+       
 
         if(gabarito[x][y] == "-"){
             gabarito[x][y] = "@";
