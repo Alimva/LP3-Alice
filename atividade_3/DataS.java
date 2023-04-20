@@ -48,60 +48,56 @@ public class DataS {
     }
 
     public String dia_semana(){
-        int chave,s;
+        int formula,s;
+        
+        if(mes == 01 ) // mês de janeiro será o mês 13 do ano anterior.
+        {
+            mes = 13;
+            ano = ano - 1;
+        }
+        
+        if(mes == 02 ) // mês de favereiro será o mês 14 do ano anterior.
+        {
+            mes = 14;
+            ano = ano - 1;
+        
+        } 
+        
+        formula = dia + 2*mes + (3*(mes+1)/5) + ano + ano/4 - ano/100 + ano/400 + 2;  // Formula para calcular o dia da semana.
+        s = formula % 7;                                                     // Resto da divisão do valor encontrado na formula por 7.
 
-        chave = (ano % 100);
-        chave = ((chave / 4)+(chave % 7))/ 7;
-
-        if(mes == 4 || mes == 7){
-            s = dia + chave;
-            s -= s/7;
+        if (mes == 13) // Se for mês de Janeiro, coloca o valor certo do Mês e do Ano para mostrar na tela.
+        {
+            mes = 1;
+            ano = ano+1;
         }
-        if(mes == 1 || mes == 10){
-            s = dia + chave + 1;
-            s -= s/7;
-        }
-        if(mes == 5){
-            s = dia + chave + 2;
-            s -= s/7;
-        }
-        if(mes == 8){
-            s = dia + chave + 3;
-            s -= s/7;
-        }
-        if(mes == 2 || mes == 3 || mes == 11){
-            s = dia + chave + 4;
-            s -= s/7;
-        }
-        if(mes == 6){
-            s = dia + chave + 5;
-            s -= s/7;
-        }
-        if(mes == 9 || mes == 12){
-            s = dia + chave + 6;
-            s -= s/7;
+        if (mes == 14) // Se for mês de Fevereiro, coloca o valor certo do Mês e do Ano para mostrar na tela.
+        {
+            mes = 2;
+            ano = ano +1;
         }
 
-        if(s == 0){
-            return "Sabado";
-        }
-        if(s == 1){
-            return "Domingo";
-        }
-        if(s == 2){
-            return "Segunda";
-        }
-        if(s == 3){
-            return "Terca";
-        }
-        if(s == 4){
-            return "Quarta";
-        }
-        if(s == 5){
-            return "Quinta";
-        }
-        if(s == 6){
-            return "Sexta";
+        switch (s) {
+            case 0:
+                return "Sabado";
+            
+            case 1:
+             return "Domingo";
+            
+            case 2:
+                return "Segunda";
+            
+            case 3:
+                return "Terça";
+
+            case 4:
+                return "Quarta";
+
+            case 5:
+                return "Quinta";
+
+            default:
+                return "Sexta";
         }
     }
 }
