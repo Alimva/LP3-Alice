@@ -1,4 +1,4 @@
-public class hora {
+public class HoraA {
     private int hora,minuto;
 
     private boolean hora_valida(int hora) {
