@@ -138,68 +138,100 @@ public class Data {
     }
 
     public int howManyDays(Data d) {
-        int p = 0;
-        if(d.get_ano() > ano){
-            for (int i = ano; i != d.get_ano(); i++) {
-                if(ano % 4 == 0){
-                    p+= 366;
-                }
-                else{
-                    p+=365;
-                }
-            }
-            
-        }
-        if(d.get_ano() < ano){
-            for (int i = d.get_ano(); i != ano; i++) {
-                if(ano % 4 == 0){
-                    p+= 366;
-                }
-                else{
-                    p+=365;
-                }
-            }
-            
-        }
-        if(d.get_mes() < mes){
-            for(int i = d.get_mes();i != mes; i++){
-                if(i == 4 || i == 6 || i == 9 || i == 11){
-                    p+=30;
-                }
-                if(mes==2 && ano%4 == 0){
-                    p+=29;
-                }
-                if(mes==2 && ano%4 != 0){
-                    p+=28;
-                }
-                else{
-                    p+= 31;
-                }
-            }
-        }
-        if(d.get_mes() > mes){
-            for(int i = d.get_mes();i != mes; i++){
-                if(i == 4 || i == 6 || i == 9 || i == 11){
-                    p+=30;
-                }
-            
-                if(mes==2 && ano%4 == 0){
-                    p+=29;
-                }
-                if(mes==2 && ano%4 != 0){
-                    p+=28;
-                }
-                else{
-                    p+= 31;
-                }
-            }
-        }
-        
+        int anomin = (ano >=d.get_ano()) ? d.get_ano():ano;
+        int anomax = (ano >=d.get_ano()) ? ano:d.get_ano();
+        int mesmin = (mes >=d.get_mes()) ? d.get_mes():mes;
+        int mesmax = (mes >=d.get_mes()) ? mes:d.get_mes();
+        int diamin = (dia >=d.get_dia()) ? d.get_dia():dia;
+        int diamax = (dia >=d.get_dia()) ? dia:d.get_dia();
+        int dias = 0;
 
-        if(!isPrev(d)){
-            
+        while(anomin < anomax){
+            if(anomin%4 == 0){
+                dias += 366;
+            }
+            else{
+                dias += 365;
+            }
+            anomin++;
         }
-        return p;
+
+        while(mesmin < mesmax){
+            if(mesmin % 2 == 1 || mesmin == 8){
+                dias += 31;
+            }
+            if(mesmin == 2 && anomax % 4 == 0){
+                dias += 29;
+            }
+            if(mesmin == 2 && anomax % 4 == 1){
+                dias += 28;
+            }
+            else{
+                dias += 30;
+            }
+            mesmin++;
+        }
+        dias += diamax - diamin;
+
+        if(isPrev(d)){
+            dias = dias * -1;
+        }
+
+
+        return dias;
+    }
+
+    public String dia_semana(){
+        int formula,s;
         
+        if(mes == 01 ) // mês de janeiro será o mês 13 do ano anterior.
+        {
+            mes = 13;
+            ano = ano - 1;
+        }
+        
+        if(mes == 02 ) // mês de favereiro será o mês 14 do ano anterior.
+        {
+            mes = 14;
+            ano = ano - 1;
+        
+        } 
+        
+        formula = dia + 2*mes + (3*(mes+1)/5) + ano + ano/4 - ano/100 + ano/400 + 2;  // Formula para calcular o dia da semana.
+        s = formula % 7;                                                     // Resto da divisão do valor encontrado na formula por 7.
+
+        if (mes == 13) // Se for mês de Janeiro, coloca o valor certo do Mês e do Ano para mostrar na tela.
+        {
+            mes = 1;
+            ano = ano+1;
+        }
+        if (mes == 14) // Se for mês de Fevereiro, coloca o valor certo do Mês e do Ano para mostrar na tela.
+        {
+            mes = 2;
+            ano = ano +1;
+        }
+
+        switch (s) {
+            case 0:
+                return "Sabado";
+            
+            case 1:
+             return "Domingo";
+            
+            case 2:
+                return "Segunda";
+            
+            case 3:
+                return "Terça";
+
+            case 4:
+                return "Quarta";
+
+            case 5:
+                return "Quinta";
+
+            default:
+                return "Sexta";
+        }
     }
 }
