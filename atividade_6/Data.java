@@ -28,6 +28,21 @@ public class Data {
 
     }
 
+    public Data(){
+        
+        dia = 1;
+        mes = 1;
+        ano = 1970;
+        
+    }
+
+    public Data(Data d){
+        
+        dia = d.get_dia();
+        mes = d.get_mes();
+        ano = d.get_ano();
+    }
+
     private boolean verificarData(int dia, int mes, int ano) {
         if(mes < 12 && mes > 0){
             if(mes == 1 || mes == 3 || mes == 5 || mes == 7 || mes == 8 || mes == 10 || mes == 12){
@@ -120,16 +135,16 @@ public class Data {
         System.out.println(dia+ " de "+ mes + " de "+ ano);
     }
     
-    public boolean isPrev(Data d) {
-        if(d.get_ano() < ano){
+    public boolean isPrev(int dia, int mes, int ano) {
+        if(ano < this.ano){
             return true;
         }
-        if(d.get_ano() == ano){
-            if(d.get_mes() < mes){
+        if(ano == this.ano){
+            if(mes < this.mes){
                 return true;
             }
             else{
-                if(d.get_dia() < dia){
+                if(dia < this.dia){
                     return true;
                 }
             }
@@ -173,10 +188,56 @@ public class Data {
         }
         dias += diamax - diamin;
 
-        if(isPrev(d)){
+        if(isPrev(d.get_dia(),d.get_mes(),d.get_ano())){
             dias = dias * -1;
         }
 
+
+        return dias;
+    }
+
+    public int howManyDays(int ano, int mes, int dia) {
+        int anomin = (this.ano >=ano) ? ano : this.ano;
+        int anomax = (this.ano >=ano) ? this.ano : ano;
+        int mesmin = (this.mes >= mes) ? mes : this.mes;
+        int mesmax = (this.mes >= mes) ? this.mes : mes;
+        int diamin = (this.dia >= dia) ? dia : this.dia;
+        int diamax = (this.dia >= dia) ? this.dia : dia;
+        int dias = 0;
+
+
+        while(anomin < anomax){
+            if(anomin%4 == 0){
+                dias += 366;
+            }
+            else{
+                dias += 365;
+            }
+            anomin++;
+        }
+
+        while(mesmin < mesmax){
+            if(mesmin % 2 == 1 || mesmin == 8){
+                dias += 31;
+            }
+            if(mesmin == 2 && anomax % 4 == 0){
+                dias += 29;
+            }
+            if(mesmin == 2 && anomax % 4 == 1){
+                dias += 28;
+            }
+            else{
+                dias += 30;
+            }
+            mesmin++;
+        }
+        dias += diamax - diamin;
+
+        if(isPrev(dia, mes, ano)){
+            dias = dias * -1;
+        }
+
+        
 
         return dias;
     }
