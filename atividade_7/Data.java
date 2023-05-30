@@ -62,8 +62,9 @@ public class Data {
         System.out.println(dia+"/"+mes+"/"+ano);
     }
 
-    public void imprimirDataExtenso(){
+    public String imprimirDataExtenso(){
         String mes;
+        String str;
         switch (this.mes) {
             case 1:
                 mes = "Janeiros";
@@ -120,6 +121,7 @@ public class Data {
         }
 
         System.out.println(dia+ " de "+ mes + " de "+ ano);
+        
     }
     
     public boolean isPrev(Data d) {
@@ -185,14 +187,53 @@ public class Data {
 
 
     public static int howManyDaysUntilEndYear(Data d){
-        Calendar c = Calendar.getInstance();
-        Data fim = new Data(31,12,c.get(Calendar.YEAR));
-        return d.howManyDays(fim);
+        int dias = 0;
+
+        for(int i = d.mes; i < 12; i++){
+            if(i == d.mes){
+                if (i% 2 == 1 || i == 8){
+                    dias += (31 - d.dia);
+                }
+                if(i == 2 && d.ano % 4 == 0){
+                    dias += (29 - d.dia);
+                }
+                if(i == 2 && d.ano % 4 == 1){
+                    dias += (28 - d.dia);
+                }
+                else{
+                    dias += (30 - d.dia);
+                }
+            }else if (i% 2 == 1 || i == 8){
+                dias += 31;
+            }else if(i == 2 && d.ano % 4 == 0){
+                dias += 29;
+            }else if(i == 2 && d.ano % 4 == 1){
+                dias += 28;
+            }else{
+                dias += 30;
+            }
+            
+        }
+
+        return dias;
     }
 
     public static int howManyDaysUntilNextMonth(Data d){
-        Data prox = new Data(1, (d.get_mes() + 1), d.get_ano());
-        return d.howManyDays(prox);
+        int dias = 0;
+
+        
+        if (d.mes% 2 == 1 || d.mes == 8){
+            dias += 32 - d.dia;
+        }else if(d.mes == 2 && d.ano % 4 == 0){
+            dias += 30 - d.dia;
+        }else if(d.mes == 2 && d.ano % 4 == 1){
+            dias += 29 - d.dia;
+        }else{
+            dias += 31 - d.dia;
+        }
+        
+        
+        return dias;
     }
 
     public static boolean isBissexto(Data d){
@@ -219,7 +260,7 @@ public class Data {
         
         } 
         
-        formula = d.dia + 2*d.mes + (3*(d.mes+1)/5) + ano + ano/4 - ano/100 + ano/400 + 2;  // Formula para calcular o dia da semana.
+        formula = d.dia + 2*d.mes + (3*(d.mes+1)/5) + d.ano + d.ano/4 - d.ano/100 + d.ano/400 + 2;  // Formula para calcular o dia da semana.
         s = formula % 7;                                                     // Resto da divisão do valor encontrado na formula por 7.
 
         if (d.mes == 13) // Se for mês de Janeiro, coloca o valor certo do Mês e do Ano para mostrar na tela.
@@ -257,8 +298,70 @@ public class Data {
         }
     }
 
-    String dayToPrintShort(Data d){
-        return d.imprimirData();
+    public static String dayToPrintShort(Data d){
+        String str = Integer.toString(d.dia) +"/"+ Integer.toString(d.mes) +"/"+ Integer.toString(d.ano);
+        return str;
+    }
+
+    public static String dayToPrintLong(Data d){
+        String str;
+        String mes;
+
+        switch (d.mes) {
+            case 1:
+                mes = "Janeiros";
+                break;
+            
+            case 2:
+                mes = "Fevereiro";
+                break;
+            
+            case 3:
+                mes = "Marco";
+                break;
+            
+            case 4:
+                mes = "Abril";
+                break;
+
+            case 5:
+                mes = "Maio";
+                break;
+            
+            case 6:
+                mes = "Junho";
+                break;
+
+            case 7:
+                mes = "Julho";
+                break;
+
+            case 8:
+                mes = "Agosto";
+                break;
+            
+            case 9: 
+                mes = "Setembro";
+                break;
+            
+            case 10:
+                mes = "Outubro";
+                break;
+            
+            case 11:
+                mes = "Novembro";
+                break;
+
+            case 12:
+                mes = "Dezembro";
+                break;
+
+            default:
+                System.out.println("A data colocada não é valida");
+                mes = "Zero";
+                break;
+        }
+        return str = d.dia+ " de "+ mes + " de "+ d.ano;
     }
     
 }
